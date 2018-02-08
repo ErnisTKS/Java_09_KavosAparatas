@@ -1,6 +1,7 @@
 package aparatai;
 
 import produktai.Produktai;
+import puodeliai.KavosPuodelis;
 import puodeliai.KavosTipai.CapuccinoPuodelis;
 import puodeliai.KavosTipai.JuodosKavosPuodelis;
 import puodeliai.KavosTipai.LattePuodelis;
@@ -108,17 +109,40 @@ public class KavosAparatas {
     }
 
     public void gaminkKava(String kavosRusis) {
-        switch (kavosRusis) {
-            case KAVA_JUODA:
-                this.gaminkJuoda();
-                break;
-            case KAVA_LATTE:
-                this.gaminkLatte();
-                break;
-            case KAVA_CAPUCCINO:
-                this.gaminkCapuccino();
-                break;
+
+        if (arGaliuGaminti()) {
+
+            arPlauti = getUzKiekPlauti() == 1;
+
+            KavosPuodelis puodelis = null;
+
+            switch (kavosRusis) {
+                case KAVA_JUODA:
+                    puodelis = new JuodosKavosPuodelis();
+                    break;
+                case KAVA_LATTE:
+                    puodelis = new LattePuodelis();
+                    break;
+                case KAVA_CAPUCCINO:
+                    puodelis = new CapuccinoPuodelis();
+                    break;
+            }
+
+            setVandensKiekis(getVandensKiekis() - puodelis.getProduktai().getVandensKiekis());
+            puodelis.setDabartineTalpa(puodelis.getDabartineTalpa()+(int)puodelis.getProduktai().getVandensKiekis());
+            setCukrausKiekis(getCukrausKiekis() - puodelis.getProduktai().getCukrausKiekis());
+            puodelis.setDabartineTalpa(puodelis.getDabartineTalpa()+(int)puodelis.getProduktai().getCukrausKiekis());
+            setKavosKiekis(getKavosKiekis() - puodelis.getProduktai().getKavosKiekis());
+            puodelis.setDabartineTalpa(puodelis.getDabartineTalpa()+(int)puodelis.getProduktai().getKavosKiekis());
+            panaudojimuSkaicius++;
+            if (puodelis.getDabartineTalpa()==puodelis.getMaxPuodelioTalpa()){
+                puodelis.setArKavaPagaminta(true);
+            } else puodelis.setArKavaPagaminta(false);
+
+            System.out.println(puodelis.toString());
         }
+
+
 
     }
 
@@ -148,69 +172,6 @@ public class KavosAparatas {
         }
 
         return result;
-    }
-
-    private void gaminkJuoda() {
-        if (arGaliuGaminti()) {
-
-            arPlauti = getUzKiekPlauti() == 1;
-            JuodosKavosPuodelis puodelis = new JuodosKavosPuodelis();
-
-            setVandensKiekis(getVandensKiekis() - puodelis.getProduktai().getVandensKiekis());
-            puodelis.setDabartineTalpa(puodelis.getDabartineTalpa()+(int)puodelis.getProduktai().getVandensKiekis());
-            setCukrausKiekis(getCukrausKiekis() - puodelis.getProduktai().getCukrausKiekis());
-            puodelis.setDabartineTalpa(puodelis.getDabartineTalpa()+(int)puodelis.getProduktai().getCukrausKiekis());
-            setKavosKiekis(getKavosKiekis() - puodelis.getProduktai().getKavosKiekis());
-            puodelis.setDabartineTalpa(puodelis.getDabartineTalpa()+(int)puodelis.getProduktai().getKavosKiekis());
-            panaudojimuSkaicius++;
-            if (puodelis.getDabartineTalpa()==puodelis.getMaxPuodelioTalpa()){
-                puodelis.setArKavaPagaminta(true);
-            } else puodelis.setArKavaPagaminta(false);
-
-            System.out.println(puodelis.toString());
-        }
-    }
-
-    private void gaminkLatte() {
-        if (arGaliuGaminti()) {
-
-            arPlauti = getUzKiekPlauti() == 1;
-
-            LattePuodelis puodelis = new LattePuodelis();
-
-            setVandensKiekis(getVandensKiekis() - puodelis.getProduktai().getVandensKiekis());
-            puodelis.setDabartineTalpa(puodelis.getDabartineTalpa()+(int)puodelis.getProduktai().getVandensKiekis());
-            setCukrausKiekis(getCukrausKiekis() - puodelis.getProduktai().getCukrausKiekis());
-            puodelis.setDabartineTalpa(puodelis.getDabartineTalpa()+(int)puodelis.getProduktai().getCukrausKiekis());
-            setKavosKiekis(getKavosKiekis() - puodelis.getProduktai().getKavosKiekis());
-            puodelis.setDabartineTalpa(puodelis.getDabartineTalpa()+(int)puodelis.getProduktai().getKavosKiekis());
-            panaudojimuSkaicius++;
-            if (puodelis.getDabartineTalpa()==puodelis.getMaxPuodelioTalpa()){
-                puodelis.setArKavaPagaminta(true);
-            } else puodelis.setArKavaPagaminta(false);
-
-            System.out.println(puodelis.toString());
-        }
-    }
-
-    private void gaminkCapuccino() {
-        if (arGaliuGaminti()) {
-            arPlauti = getUzKiekPlauti() == 1;
-            CapuccinoPuodelis puodelis = new CapuccinoPuodelis();
-
-            setVandensKiekis(getVandensKiekis() - puodelis.getProduktai().getVandensKiekis());
-            puodelis.setDabartineTalpa(puodelis.getDabartineTalpa()+(int)puodelis.getProduktai().getVandensKiekis());
-            setCukrausKiekis(getCukrausKiekis() - puodelis.getProduktai().getCukrausKiekis());
-            puodelis.setDabartineTalpa(puodelis.getDabartineTalpa()+(int)puodelis.getProduktai().getCukrausKiekis());
-            setKavosKiekis(getKavosKiekis() - puodelis.getProduktai().getKavosKiekis());
-            puodelis.setDabartineTalpa(puodelis.getDabartineTalpa()+(int)puodelis.getProduktai().getKavosKiekis());
-            panaudojimuSkaicius++;
-            if (puodelis.getDabartineTalpa()==puodelis.getMaxPuodelioTalpa()){
-                puodelis.setArKavaPagaminta(true);
-            } else puodelis.setArKavaPagaminta(false);
-
-            System.out.println(puodelis.toString());
-        }
     }
 
     public void setProduktai(Produktai produktai) {
